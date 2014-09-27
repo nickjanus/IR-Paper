@@ -8,7 +8,7 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Improving Hashtag Comprehension with Search and Text Extraction
+\title{Improving Hashtag Comprehension with Search and Text Summarization
 %  \titlenote{(Produces the permission block, and copyright information). For use with SIG-ALTERNATE.CLS. Supported by ACM.}
 }
 \subtitle{Project Proposal}
@@ -17,7 +17,7 @@
 \author{
 % 1st. author
 \alignauthor
-Jack Lanchantin\\
+John Lanchantin\\
        \affaddr{University of Virginia}\\
        \affaddr{85 Engineer's Way}\\
        \affaddr{Charlottesville, VA 22904-4740}\\
@@ -48,13 +48,13 @@ Posts on micro-blogging sites are often very hard to understand due to their inf
 \keywords{Micro-blogging, Hashtag retrieval, hashtag prediction, hashtag comprehension}
 
 \section{Introduction}
-The internet today, especially micro-blogging sites such as twitter and facebook, is filled with 'hashtags'. Hashtags are single tokens that use the character '\#' in front of the words, and are often composed of natural language n-grams or abbreviations. The problem is that there is no structure to hashtags beyond the format of the '\#' character and no spaces, thus making it terribly difficult to understand them. Users often create hashtags that are slang, concatenations of many words, acronyms, or simply made up words.\\
+The Internet today, especially social network services such as twitter and facebook, is filled with 'hashtags'. Hashtags are single tokens that use the character '\#' in front of the words, and are often composed of natural language n-grams or abbreviations. The problem is that there is no structure to hashtags beyond the format of the '\#' character and no spaces, thus making it terribly difficult to understand them. Users often create hashtags that are slang, concatenations of many words, acronyms, or simply made up words.\\
 An important task is to be able to automatically understand the underlying meaning behind a trending topic on social media. By understanding the meaning behind hashtags, we can further analyze what people are talking about. Often times, it does not become clear what someone is talking about until the meaning of his/her hashtag is understood. This leads to two important ideas: making it easier to quickly understand what someone is saying on social media, and also being able to do tasks such as document recommendation.\\
-In order to directly understand the meaning behind hashtags, we propose two possible solutions. The first solution is extracting meaning from search engines by selecting proper keywords and searching on websites such as wikipedia, urbandictionary, Google News, etc. We will search several combinations of keywords (which are extracted from the hashtag) on Google, gather the top results, and rank them to get the best document. We will then extract the key sentence/phrase from the most relevant document. The second solution is extracting meaning directly from tweets by using techniques such as selecting a certain tweet that best explains the hashtag, or by summarizing a large amount of tweets with the same hashtag.\\
+In order to understand the meaning behind hashtags, we propose two possible solutions. The first solution is extracting meaning from search engines by selecting proper keywords and searching on websites such as wikipedia, urbandictionary, Google News, etc. We will search several combinations of keywords (which are extracted from tweets that include the same hashtag) on existing search engine services like Google or Bing, gather the top results, and rank them to get the best document. We will then extract the key sentence/phrase from the most relevant document. The second solution is extracting meaning directly from tweets by using techniques such as graph mining, or automatic text summarization on a large amount of tweets with the same hashtag.\\
 
 \section{Related Work}
-The research surrounding hashtags covers a variety of topics including retrieval\cite{efron:retrieval}, prediction\cite{khabiri:predict}\cite{tagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or corporate sponsorship of individual tags.\\
-Currently, there are a few websites (e.g. tagdef.com, tagboard.com) which attempt to explain hashtags by crowdsourcing definitions. However, these websites do not do a great job defining new hashtags, and they require users’ input to define the meaning of hashtags. As they’re not so popular among twitter users, the content quality is not as good as the other cloud-sourcing platforms like Wikipedia or Urban Dictionary.\\
+The research surrounding hashtags covers a variety of topics including hashtag retrieval\cite{efron:retrieval}, hashtag prediction\cite{khabiri:predict}\cite{tagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or corporate sponsorship of individual tags.\\
+Currently, there are a few websites (e.g. tagdef.com, tagboard.com) which attempt to explain hashtags by crowdsourcing definitions. However, these websites do not do a great job defining new hashtags, and they require users' input to define the meaning of hashtags. As they're not so popular among twitter users, the content quality is not as good as the other cloud-sourcing platforms like Wikipedia or Urban Dictionary.\\
 Our approach will have a much greater coverage of hashtags and will not rely on manual intervention for an interpretation of the tag's meaning.  By giving access to our system via a browser plugin, our service will also be much more accessible and available to users of micro-blogging platforms.\\
 
 \section{Approach and Evaluation}
@@ -62,7 +62,8 @@ Our implementation plan is as follows: Use the Twitter API to crawl posts with s
   At this time, we are not aware of any available "gold standard" dataset for hashtag meanings.  As time allows, we will attempt to create such a data set by using a variety of twitter hashtags, with pools defined by mean hashtag popularity, so as to thoroughly test our retrieval pipeline.  We expect that scale will be the main weakness of this test dataset.  We will also provide a mechanism within the plugin for users to report their search results as inaccurate.  This should help with evaluation of the model once it is deployed.\\
 The main contribution of our work is a novel method of extracting meaning from hashtags in order to aid in micro-blogging post understanding and document recommendation.\\
 
-\subsection{References}
+%\subsection{References}
 \bibliographystyle{acm}
-\bibliography{sigproc.bib}
+\bibliography{sigproc}
+
 \end{document}
