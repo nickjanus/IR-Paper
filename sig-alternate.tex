@@ -53,7 +53,7 @@ An important task is to be able to automatically understand the underlying meani
 In order to directly understand the meaning behind hashtags, we propose two possible solutions. The first solution is extracting meaning from search engines by selecting proper keywords and searching on websites such as wikipedia, urbandictionary, Google News, etc. We will search several combinations of keywords (which are extracted from the hashtag) on Google, gather the top results, and rank them to get the best document. We will then extract the key sentence/phrase from the most relevant document. The second solution is extracting meaning directly from tweets by using techniques such as selecting a certain tweet that best explains the hashtag, or by summarizing a large amount of tweets with the same hashtag.\\
 
 \section{Related Work}
-The research surrounding hashtags covers a variety of topics including retrieval\cite{efron:retrieval}, prediction\cite{khabiri:predict}\cite{fbtagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or corporate sponsorship of individual tags.\\
+The research surrounding hashtags covers a variety of topics including retrieval\cite{efron:retrieval}, prediction\cite{khabiri:predict}\cite{tagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or corporate sponsorship of individual tags.\\
 Currently, there are a few websites (e.g. tagdef.com, tagboard.com) which attempt to explain hashtags by crowdsourcing definitions. However, these websites do not do a great job defining new hashtags, and they require users’ input to define the meaning of hashtags. As they’re not so popular among twitter users, the content quality is not as good as the other cloud-sourcing platforms like Wikipedia or Urban Dictionary.\\
 Our approach will have a much greater coverage of hashtags and will not rely on manual intervention for an interpretation of the tag's meaning.  By giving access to our system via a browser plugin, our service will also be much more accessible and available to users of micro-blogging platforms.\\
 
@@ -63,4 +63,6 @@ Our implementation plan is as follows. Use the Twitter API to crawl posts with s
 The main contribution of our work is a novel method of extracting meaning from hashtags in order to aid in micro-blogging post understanding and document recommendation.\\
 
 \subsection{References}
+\bibliographystyle{acm}
+\bibliography{sigproc.bib}
 \end{document}
