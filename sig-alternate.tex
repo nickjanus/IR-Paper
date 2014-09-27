@@ -58,7 +58,7 @@ Currently, there are a few websites (e.g. tagdef.com, tagboard.com) which attemp
 Our approach will have a much greater coverage of hashtags and will not rely on manual intervention for an interpretation of the tag's meaning.  By giving access to our system via a browser plugin, our service will also be much more accessible and available to users of micro-blogging platforms.\\
 
 \section{Approach and Evaluation}
-Our implementation plan is as follows. Use the Twitter API to crawl posts with specific hashtags, implement our three techniques to better understand the hashtag, summarize the hashtag as simply as possible, and display our results as a browse plugin when a user selects a certain hashtag.\\
+Our implementation plan is as follows: Use the Twitter API to crawl posts with specific hashtags, implement our three techniques to better understand the hashtag, summarize the hashtag as simply as possible, and display our results as a browse plugin when a user selects a certain hashtag.\\
   At this time, we are not aware of any available "gold standard" dataset for hashtag meanings.  As time allows, we will attempt to create such a data set by using a variety of twitter hashtags, with pools defined by mean hashtag popularity, so as to thoroughly test our retrieval pipeline.  We expect that scale will be the main weakness of this test dataset.  We will also provide a mechanism within the plugin for users to report their search results as inaccurate.  This should help with evaluation of the model once it is deployed.\\
 The main contribution of our work is a novel method of extracting meaning from hashtags in order to aid in micro-blogging post understanding and document recommendation.\\
 
