@@ -1,4 +1,6 @@
 \documentclass{sig-alternate}
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
 
 \begin{document}
 %
@@ -11,7 +13,6 @@
 \title{Improving Hashtag Comprehension with Search and Text Summarization
 %  \titlenote{(Produces the permission block, and copyright information). For use with SIG-ALTERNATE.CLS. Supported by ACM.}
 }
-\subtitle{Project Proposal}
 
 \numberofauthors{3}
 \author{
@@ -21,7 +22,7 @@ John Lanchantin\\
        \affaddr{University of Virginia}\\
        \affaddr{85 Engineer's Way}\\
        \affaddr{Charlottesville, VA 22904-4740}\\
-       \email{lanchantin@virginia.edu}
+       \email{jjl5sw@virginia.edu}
 % 2nd. author
 \alignauthor
 Nicholas Janus\\
@@ -40,7 +41,7 @@ Weilin Xu\\
 
 \maketitle
 \begin{abstract}
-Posts on micro-blogging sites are often very hard to understand due to their informality. Hashtags represent one solution to this problem by acting as subject markers for posts.  However, hashtags are often difficult to understand without reading through multiple posts or conversations. We attempt to solve hashtag comprehension problem by automatically understanding what hashtags mean, and displaying relevant documents or text from within those documents. 
+Posts on micro-blogging sites are often very hard to understand due to their informality. Hashtags represent one solution to this problem by acting as subject markers for posts. However, hashtags are often difficult to understand without reading through multiple posts or conversations. We attempt to solve hashtag comprehension problem by automatically understanding what hashtags mean, and displaying relevant documents or text from within those documents.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -53,14 +54,52 @@ An important task is to be able to automatically understand the underlying meani
 In order to understand the meaning behind hashtags, we propose two possible solutions. The first solution is extracting meaning from search engines by selecting proper keywords and searching on websites such as wikipedia, urbandictionary, Google News, etc. We will search several combinations of keywords (which are extracted from tweets that include the same hashtag) on existing search engine services like Google or Bing, gather the top results, and rank them to get the best document. We will then extract the key sentence/phrase from the most relevant document. The second solution is extracting meaning directly from tweets by using techniques such as graph mining, or automatic text summarization on a large amount of tweets with the same hashtag.\\
 
 \section{Related Work}
-The research surrounding hashtags covers a variety of topics including hashtag retrieval\cite{efron:retrieval}, hashtag prediction\cite{khabiri:predict}\cite{tagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or corporate sponsorship of individual tags.\\
-Currently, there are a few websites (e.g. tagdef.com, tagboard.com) which attempt to explain hashtags by crowdsourcing definitions. However, these websites do not do a great job defining new hashtags, and they require users' input to define the meaning of hashtags. As they're not so popular among twitter users, the content quality is not as good as the other cloud-sourcing platforms like Wikipedia or Urban Dictionary.\\
+The research surrounding hashtags covers a variety of topics including hashtag retrieval\cite{efron:retrieval}, hashtag prediction\cite{khabiri:predict}\cite{tagspace} for social media posts, or sentiment analysis for either the hashtag itself or the contents of the enclosing post.  Although these systems rely on an implicit understanding of the hash tag's meaning, they do not attempt to export such semantics.  Attempts to deliver the meaning of hashtags rely on crowdsourcing or manual annotation.\\
+Currently, twitter manually expands certain acronym hashtags (e.g. \#oitnb translates to ?orange is the new black?), but it does not explain what they mean. In addition, there are a few websites (e.g. tagdef.com) which attempt to explain hashtags by crowdsourcing definitions, but there is often no clear cut definition. Both of the aforementioned methods do a poor job at explaining trending, or newly defined hashtags because they rely on the meaning of a hashtag over a long period of time, or have to wait until users explain the hashtag. In addition, the content quality is not as good as webpage links that give a more clearly defined explanation.
 Our approach will have a much greater coverage of hashtags and will not rely on manual intervention for an interpretation of the tag's meaning.  By giving access to our system via a browser plugin, our service will also be much more accessible and available to users of micro-blogging platforms.\\
 
-\section{Approach and Evaluation}
-Our implementation plan is as follows: Use the Twitter API to crawl posts with specific hashtags, implement our three techniques to better understand the hashtag, summarize the hashtag as simply as possible, and display our results as a browse plugin when a user selects a certain hashtag.\\
-  At this time, we are not aware of any available "gold standard" dataset for hashtag meanings.  As time allows, we will attempt to create such a data set by using a variety of twitter hashtags, with pools defined by mean hashtag popularity, so as to thoroughly test our retrieval pipeline.  We expect that scale will be the main weakness of this test dataset.  We will also provide a mechanism within the plugin for users to report their search results as inaccurate.  This should help with evaluation of the model once it is deployed.\\
-The main contribution of our work is a novel method of extracting meaning from hashtags in order to aid in micro-blogging post understanding and document recommendation.\\
+\section{Approach and Implementation}
+
+The main idea of our approach is as follows. Based on all tweets that use the inquired hashtag, we create a query for a current search engine (Bing.com), and display relevant web pages and a short summary based on those web pages to the user. \\
+The system flow works in the following way: the user issues a hashtag to find its meaning using a browser plugin, the system extracts and filters all tweets using that hashtag, generates a query based on the tweets, searches that query using bing, returns the links of the most relevant web pages, and generates a summarization of the text from the top web page. The links and summary are displayed to the user via the plugin. This is shown in figure \ref{fig:SystemArchitechture}. Each module is explained is explained in further detail in the following subsections.
+
+\begin{figure}[h!]
+     \fbox{\includegraphics[width=.46\textwidth]{SystemArchitechture}}
+   \caption{System Architechture} \label{fig:SystemArchitechture}
+\end{figure}
+
+
+\subsection{Tweet Extraction}
+The Tweet Extraction module returns the text of the N most recent tweets that use the inquired hashtag using the Twitter Search API (we use N = 500 in our case). One limitation of this method is that currently, the Twitter Search API  only allows tweets from past 6-9 days. This makes it difficult to extract the meaning of hashtags that may have been used a few times in the past few days, but the majority of the times it was used was more than 6-9 days ago. \\
+Filtering the tweets
+Removal of URLs, emoticons, spam tweets
+Case sensitive hashtags (e.g. \#IAD vs \#iAd)
+Return related hashtags
+
+
+
+\subsection{Query Generation}
+The main idea of the query generation module is to generate a query to search in Bing based on the text from the tweet extraction module. Our method generates a query based on the high-frequent terms from the tweets.\\
+We first pre-process the filtered tweet text by using tokenization, case normalization, removing stopwords (which we added certain "twitter-specific" stopwords to the english stopwords list) and punctuation removal. We do not use stemming because... We also do not use segmentation because we found out that segmentation did not improve our results, and in some cases decreased accuracy. We assume that this is due to the fact that when we search something in Bing that contains concatenated words (e.g. 'presidentobama'), Bing does a better job segmenting the two words 'president' and 'obama' than the word segment toolkit. \\
+We then count unigrams, bigrams, trigrams, and return:
+comb. of top 3 unigrams, comb. of 2nd/3rd unigrams
+top 1 bi/tri-grams if counts reach a threshold
+Example:
+\#OREvsAZ  ? [?orevsaz?, ?oregon?, ?arizona?, ?pac12 championship?]
+
+\subsection{Web Search and Selection}
+
+\subsection{Text Summarization}
+
+
+
+\section{Evaluation}
+ At this time, we are not aware of any available "gold standard" dataset for hashtag meanings.  In order to compensate, we were forced to create our own test dataset, which consisted of a spreadsheet with about 30 hashtags, and known relevant links to each of those hashtags. We understand that this is a small dataset, and not statistically significant, thus is a weak point of our system. We did, in addition, do many heuristic based tests to see if we were getting relevant results based on the links that the system returned. We observed that in addition to noisy results, the system did often return at least one or two of the most relevant documents to a particular hashtag. The text summarization aspect did not perform very well, and we attribute this to the fact that in order to generate an accurate summary, the top few links returned must be very relevant to the hashtag, otherwise it will be a completely inaccurate summary.\\
+
+
+\section{Conclusions and Future Work}
+The main contribution of our work is a novel method of automatically extracting meaning from hashtags so that users can understand topics and trends more easily on Twitter. 
+One aspect we wish to have implemented if we had more time was allowing the user to search for a hashtag from a certain tweet, and incorporating the text from that tweet (if efficient amount of text) more heavily than all of the others into the query generation. For example, if someone inquired about the hashtag \#UVA, our system would be able to return links with information about the University of Virginia. However, if the user was curious about the hashtag \#UVA in the context of a tweet that said something along the lines of 'The cavaliers remain undefeated in basketball this season', then the system should be able to extract words such as 'cavaliers' and 'basketball' in addition to 'UVA', and return links that relate to the University of Virginia basketball team.
 
 %\subsection{References}
 \bibliographystyle{acm}
