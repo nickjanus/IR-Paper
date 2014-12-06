@@ -45,7 +45,7 @@ Posts on micro-blogging sites are often very hard to understand due to their inf
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{Information systems}{Information Retrieval}{Specialized information retrieval}
+\category{Information systems}{Information Retrieval}{Specialized Information Retrieval}
 \keywords{Micro-blogging, Hashtag retrieval, hashtag prediction, hashtag comprehension}
 
 \section{Introduction}
@@ -71,11 +71,9 @@ The system flow works in the following way: the user issues a hashtag to find it
 
 \subsection{Tweet Extraction}
 The Tweet Extraction module returns the text of the N most recent tweets that use the inquired hashtag using the Twitter Search API (we use N = 500 in our case). One limitation of this method is that currently, the Twitter Search API  only allows tweets from past 6-9 days. This makes it difficult to extract the meaning of hashtags that may have been used a few times in the past few days, but the majority of the times it was used was more than 6-9 days ago. \\
-Filtering the tweets
-Removal of URLs, emoticons, spam tweets
-Case sensitive hashtags (e.g. \#IAD vs \#iAd)
-Return related hashtags
-
+An important aspect of the tweet extraction is filtering the tweets that the search API retrieves. Firstly, we search the API using a '-filter:retweets' extension so that retweets are not considered because the top N most recent tweets very well may be all retweets. Secondly, we remove all URLS and emoticons from the tweets. We filter these out because emoticons cannot be used in a search engine search, and we make the assumption that the URLS that are included in tweets can be directly clicked on if they are relevant, so adding them to the query will not provide any additional relevant documents. In addition, we attempt to filter spam tweets by not including the text of tweets that have more than two trending hashtags. We understand that certain trending hashtags are sometimes correlated and thus are rightfully used together in a tweet, but we observed that most of the time spammers will use many trending hashtags in their tweets so that their tweets are seen by more viewers.
+We consider the notion of filtering out tweets that do not have the same case-sensitive hashtag (e.g. \#IAD refers to the Washington/Dulles international airport, but \#iAd refers to Apple's advertising platform). \textbf{We observed that this does not give great improvement}.\\
+Finally, we implement a "retrieve related hashtags" submodule which retrieves the top 5 most common co-occurring hashtags with the original inquired hashtag. This is useful due to the fact that often times the most common co-occurring hashtags are often related to the inquired hashtag, and may give more information about the inquired hashtag than it alone. This is a trivial task, but the user cannot parse all of the N most recent tweets and find the most common co-occurring hashtags, so it proves useful to be implemented in the plugin. 
 
 
 \subsection{Query Generation}
