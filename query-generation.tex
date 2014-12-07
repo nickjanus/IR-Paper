@@ -1,0 +1,9 @@
+\subsection{Query Generation}
+The main idea of the query generation module is to generate a query to search in Bing based on the text from the tweet extraction module. Our method generates a query based on the high-frequent terms from the tweets.\\
+We first pre-process the filtered tweet text by using tokenization, case normalization, removing stopwords (which we added certain "twitter-specific" stopwords to the english stopwords list) and punctuation removal. We do not use stemming because we found that this in some cases resulted in a loss of information from the tweets, and a decreased accuracy. We also do not use segmentation because we found out that segmentation did not improve our results, and in some cases decreased accuracy. We assume that this is due to the fact that when we search something in Bing that contains concatenated words (e.g. 'presidentobama'), Bing does a better job segmenting the two words 'president' and 'obama' than the word segment toolkit. \\
+We then counted the frequency of unigrams, bigrams, and trigrams that occur in the tweets. Based on this counting, we created separate queries consisting of the following. \{Hashtag itself\}, \{hashtag, most frequent 1-gram\}, \{hashtag, 1st most frequent 1-gram, 2nd most frequent 1-gram\},  \{1st most frequent 1-gram, 2nd most frequent 1-gram\}, and if their frequency is above a certain threshold, the top bigram and trigrams.
+
+For example, the hashtag
+\#Saban14, results in the following query vector: \\  
+\big[ \{saban14\}, \{saban14 iran\}, \{saban14 iran clinton\},  \{iran clinton\}, \{saban forum\}, \{hillary clinton israel\} \big]\\
+These queries do not explicitly tell you what \#Saban14 means, but when we search them on Bing.com, it gives good search results that are descriptive of the Saban 2014 Forum in the Middle East that is currently going on.
