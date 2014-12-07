@@ -1,7 +1,15 @@
 \subsection{Query Generation}
 The main idea of the query generation module is to generate a query to search in Bing based on the text from the tweet extraction module. Our method generates a query based on the high-frequent terms from the tweets.\\
 We first pre-process the filtered tweet text by using tokenization, case normalization, removing stopwords (which we added certain "twitter-specific" stopwords to the english stopwords list) and punctuation removal. We do not use stemming because we found that this in some cases resulted in a loss of information from the tweets, and a decreased accuracy. We also do not use segmentation because we found out that segmentation did not improve our results, and in some cases decreased accuracy. We assume that this is due to the fact that when we search something in Bing that contains concatenated words (e.g. 'presidentobama'), Bing does a better job segmenting the two words 'president' and 'obama' than the word segment toolkit. \\
-We then counted the frequency of unigrams, bigrams, and trigrams that occur in the tweets. Based on this counting, we created separate queries consisting of the following. \{Hashtag itself\}, \{hashtag, most frequent 1-gram\}, \{hashtag, 1st most frequent 1-gram, 2nd most frequent 1-gram\},  \{1st most frequent 1-gram, 2nd most frequent 1-gram\}, and if their frequency is above a certain threshold, the top bigram and trigrams.
+We then counted the frequency of unigrams, bigrams, and trigrams that occur in the tweets. Based on this counting, we respectively sorted the uni-/bi-/tri-grams in descending order,  then created separate queries consisting of the following:
+\begin{itemize}
+	\item \{1st unigram\} (\textit{i.e.} Hashtag itself)
+	\item \{1st unigram, 2nd unigram\}
+	\item \{1st unigram, 2nd unigram, 3rd unigram\}
+	\item \{2nd unigram, 3rd unigram\}
+	\item \{1st bigram\}, if the frequency is above a certain threshold
+	\item \{1st trigram\}, if the frequency is above a certain threshold
+\end{itemize}
 
 For example, the hashtag
 \#Saban14, results in the following query vector: \\  
